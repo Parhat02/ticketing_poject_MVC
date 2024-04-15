@@ -1,23 +1,29 @@
 package org.cydeo.bootstrap;
 
+import org.cydeo.dto.ProjectDTO;
 import org.cydeo.dto.RoleDTO;
 import org.cydeo.dto.UserDTO;
 import org.cydeo.enums.Gender;
+import org.cydeo.enums.Status;
+import org.cydeo.service.ProjectService;
 import org.cydeo.service.impl.RoleServiceImpl;
 import org.cydeo.service.impl.UserServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class DataGenerator implements CommandLineRunner {
 
     private final RoleServiceImpl roleService;
-
     private final UserServiceImpl userService;
+    private final ProjectService projectService;
 
-    public DataGenerator(RoleServiceImpl roleService, UserServiceImpl userService) {
+    public DataGenerator(RoleServiceImpl roleService, UserServiceImpl userService, ProjectService projectService) {
         this.roleService = roleService;
         this.userService = userService;
+        this.projectService = projectService;
     }
 
     @Override
@@ -57,6 +63,13 @@ public class DataGenerator implements CommandLineRunner {
         userService.save(user7);
         userService.save(user8);
 
+        ProjectDTO project1 = new ProjectDTO("Spring MVC", "PR001", user1, LocalDate.now(), LocalDate.now().plusDays(25), "Creating Controllers", Status.OPEN);
+        ProjectDTO project2 = new ProjectDTO("Spring ORM", "PR002", user2, LocalDate.now(), LocalDate.now().plusDays(10), "Creating Database", Status.IN_PROGRESS);
+        ProjectDTO project3 = new ProjectDTO("Spring Container", "PR003", user1, LocalDate.now(), LocalDate.now().plusDays(32), "Creating Container", Status.IN_PROGRESS);
+
+        projectService.save(project1);
+        projectService.save(project2);
+        projectService.save(project3);
 
     }
 }

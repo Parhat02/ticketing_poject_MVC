@@ -2,10 +2,12 @@ package org.cydeo.bootstrap;
 
 import org.cydeo.dto.ProjectDTO;
 import org.cydeo.dto.RoleDTO;
+import org.cydeo.dto.TaskDTO;
 import org.cydeo.dto.UserDTO;
 import org.cydeo.enums.Gender;
 import org.cydeo.enums.Status;
 import org.cydeo.service.ProjectService;
+import org.cydeo.service.TaskService;
 import org.cydeo.service.impl.RoleServiceImpl;
 import org.cydeo.service.impl.UserServiceImpl;
 import org.springframework.boot.CommandLineRunner;
@@ -19,11 +21,13 @@ public class DataGenerator implements CommandLineRunner {
     private final RoleServiceImpl roleService;
     private final UserServiceImpl userService;
     private final ProjectService projectService;
+    private final TaskService taskService;
 
-    public DataGenerator(RoleServiceImpl roleService, UserServiceImpl userService, ProjectService projectService) {
+    public DataGenerator(RoleServiceImpl roleService, UserServiceImpl userService, ProjectService projectService, TaskService taskService) {
         this.roleService = roleService;
         this.userService = userService;
         this.projectService = projectService;
+        this.taskService = taskService;
     }
 
     @Override
@@ -71,5 +75,14 @@ public class DataGenerator implements CommandLineRunner {
         projectService.save(project2);
         projectService.save(project3);
 
+        TaskDTO task1 = new TaskDTO(1L,project1, user8, "Controller", "Request Mapping", Status.IN_PROGRESS, LocalDate.now().minusDays(4));
+        TaskDTO task2 = new TaskDTO(2L,project3, user3, "Configuration", "Database Connection", Status.COMPLETE, LocalDate.now().minusDays(12));
+        TaskDTO task3 = new TaskDTO(3L,project3, user6, "Mapping", "One-To-Many", Status.COMPLETE, LocalDate.now().minusDays(8));
+        TaskDTO task4 = new TaskDTO(4L,project2, user7, "Dependency Injection", "Autowired", Status.IN_PROGRESS, LocalDate.now().minusDays(20));
+
+        taskService.save(task1);
+        taskService.save(task2);
+        taskService.save(task3);
+        taskService.save(task4);
     }
 }

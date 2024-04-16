@@ -55,7 +55,7 @@
                                                     <label>Assigned Manager</label>
                                                     <select name="assignedmanager" class="custom-select" th:field="*{assignedManager}">
                                                         <option th:value="''" th:text="Select"></option>
-                                                        <option th:each="manager : ${managers}" th:value="${manager.userName}" th:text="${manager.role.description}"></option>
+                                                        <option th:each="manager : ${managers}" th:value="${manager.userName}" th:text="${manager.firstName + ' ' + manager.lastName}"></option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -130,13 +130,13 @@
                                             <tr th:each="project:${projects}">
                                                 <td th:text="${project.projectCode}"></td>
                                                 <td th:text="${project.projectName}"></td>
-                                                <td th:text="${project.startDate} + ' / ' + ${project.endDate}"></td>
+                                                <td th:text="${#temporals.format(project.startDate, 'dd.MM.yyyy')} + ' / ' + ${#temporals.format(project.endDate, 'dd.MM.yyyy')}"></td>
                                                 <td th:text="${project.assignedManager.firstName} + ' ' +${project.assignedManager.lastName}"></td>
                                                 <td th:text="${project.projectStatus.value}"></td>
                                                 <td>
-                                                    <a href="#"><button type="button" class="btn btn-warning rounded-0">Update</button></a>
+                                                    <a th:href="@{/project/update/{projectCode}(projectCode=${project.projectCode})}"><button type="button" class="btn btn-warning rounded-0">Update</button></a>
                                                     <a th:href="@{/project/delete/{projectCode}(projectCode=${project.projectCode})}"><button type="button" class="btn btn-danger rounded-0">Delete</button></a>
-                                                    <a href="#"><button type="button" class="btn btn-info rounded-0">Complete</button></a>
+                                                    <a th:href="@{/project/complete/{projectCode}(projectCode=${project.projectCode})}"><button type="button" class="btn btn-info rounded-0">Complete</button></a>
                                                 </td>
                                             </tr>
                                             </tbody>
